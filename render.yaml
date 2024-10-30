@@ -9,8 +9,8 @@ services:
     plan: free
     name: mysite
     runtime: python
-    buildCommand: "./build.sh"
-    startCommand: "python -m gunicorn cough_classification.asgi:application -k uvicorn.workers.UvicornWorker"
+    buildCommand: "cd cough_classification && ./build.sh"
+    startCommand: "cd cough_classification && python -m gunicorn cough_classification.asgi:application -k uvicorn.workers.UvicornWorker"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
