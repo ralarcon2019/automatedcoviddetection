@@ -1,0 +1,22 @@
+databases:
+  - name: coughclassificationdb
+    plan: free
+    databaseName: coughclassification
+    user: coughclassification
+
+services:
+  - type: web
+    plan: free
+    name: coughclassification
+    runtime: python
+    buildCommand: "cd cough_classification && ./build.sh"
+    startCommand: "cd cough_classification && python -m gunicorn cough_classification.asgi:application -k uvicorn.workers.UvicornWorker"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: coughclassificationdb
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
